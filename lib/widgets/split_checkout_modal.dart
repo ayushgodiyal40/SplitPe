@@ -3,7 +3,6 @@ import 'package:confetti/confetti.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../models/split_order.dart';
 import '../models/tranche.dart';
-import '../services/upi_service.dart';
 import '../theme/app_theme.dart';
 import 'clout_share_modal.dart';
 import 'splitpe_logo.dart';
@@ -302,22 +301,17 @@ class _SplitCheckoutDialogState extends State<SplitCheckoutDialog> {
                             SizedBox(
                               width: double.infinity,
                               height: 48,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  final launched = await UpiService.launchUpiIntent(currentTranche.upiUri);
-                                  if (!launched) {
-                                    await UpiService.copyToClipboard(currentTranche.upiUri);
-                                    if (context.mounted) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: const Text('⚡ Copied UPI Link to Clipboard!'),
-                                          backgroundColor: isDark ? const Color(0xFF1E1E22) : Colors.black87,
-                                          duration: const Duration(seconds: 2),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                },
+                              child: ElevatedButton.icon(
+                                onPressed: _markCurrentAsPaid,
+                                icon: const Icon(Icons.check_circle_outline_rounded, size: 20),
+                                label: const Text(
+                                  'MARK AS PAID',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primaryBlue,
                                   foregroundColor: Colors.white,
@@ -325,25 +319,6 @@ class _SplitCheckoutDialogState extends State<SplitCheckoutDialog> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                ),
-                                child: Text(
-                                  'Pay ₹${currentTranche.amount.toStringAsFixed(0)} via UPI',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextButton(
-                              onPressed: _markCurrentAsPaid,
-                              child: Text(
-                                'Mark as Paid (Demo)',
-                                style: TextStyle(
-                                  color: AppColors.textSub(context),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),

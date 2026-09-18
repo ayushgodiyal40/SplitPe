@@ -11,7 +11,7 @@ void main() {
     );
 
     expect(order.tranches.length, 4);
-    expect(order.tranches.every((t) => t.amount <= 1999), isTrue);
+    expect(order.tranches.every((t) => t.amount <= 1900), isTrue);
     final totalSum = order.tranches.fold(0.0, (sum, t) => sum + t.amount);
     expect(totalSum, 7500.0);
     expect(order.mdrStandard, 30.0); // 0.4% of 7500 = 30
@@ -20,16 +20,14 @@ void main() {
     expect(order.mdrSavings, 35.40); // 100% saved via 0% MDR tranches
   });
 
-  test('SplitEngine produces randomized natural tranche amounts instead of static 1999', () {
-    final amounts1 = SplitEngine.calculateTrancheAmounts(totalAmount: 3850, randomize: true);
-    final amounts2 = SplitEngine.calculateTrancheAmounts(totalAmount: 3850, randomize: true);
+  test('SplitEngine produces clean round tranche amounts capped at 1900 (e.g. 2663 -> 1900 + 763)', () {
+    final amounts1 = SplitEngine.calculateTrancheAmounts(totalAmount: 2663);
+    expect(amounts1, [1900.0, 763.0]);
+    expect(amounts1.reduce((a, b) => a + b), 2663.0);
 
-    expect(amounts1.length, 2);
-    expect(amounts1.every((a) => a <= 1999.0 && a > 0), isTrue);
-    expect(amounts1.reduce((a, b) => a + b), 3850.0);
-
-    expect(amounts2.length, 2);
-    expect(amounts2.every((a) => a <= 1999.0 && a > 0), isTrue);
+    final amounts2 = SplitEngine.calculateTrancheAmounts(totalAmount: 3850);
+    expect(amounts2, [1900.0, 1900.0, 50.0]);
+    expect(amounts2.every((a) => a <= 1900.0 && a > 0), isTrue);
     expect(amounts2.reduce((a, b) => a + b), 3850.0);
   });
 

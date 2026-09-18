@@ -3,88 +3,35 @@ import '../models/split_order.dart';
 import '../models/tranche.dart';
 
 class SplitEngine {
-  /// Default safe threshold per tranche (below ₹2,000 to be 100% exempt from MDR)
-  static const double safeTrancheCap = 1999.0;
+  /// Default safe threshold per tranche (below ₹2,000 to be 100% exempt from MDR).
+  /// Capped at ₹1,900 so full tranches end in 00, making them intuitive and easy to calculate manually for customer satisfaction.
+  static const double safeTrancheCap = 1900.0;
 
-  /// Calculates randomized or fixed tranche amounts that sum exactly to [totalAmount]
-  /// with each tranche <= [maxTranche].
+  /// Calculates tranche amounts that sum exactly to [totalAmount]
+  /// with each full tranche taking the highest round amount [maxTranche] (e.g. ₹1,900)
+  /// and the remainder in the final tranche (e.g. ₹2,663 -> ₹1,900 + ₹763).
   static List<double> calculateTrancheAmounts({
     required double totalAmount,
     double maxTranche = safeTrancheCap,
-    bool randomize = true,
+    bool randomize = false,
   }) {
     if (totalAmount <= 0) return [];
-    if (totalAmount <= maxTranche) return [totalAmount];
+    if (totalAmount <= maxTranche) {
+      return [double.parse(totalAmount.toStringAsFixed(2))];
+    }
 
     final int trancheCount = (totalAmount / maxTranche).ceil();
     final List<double> amounts = [];
-    final random = Random();
     double remaining = totalAmount;
 
-    if (!randomize || trancheCount <= 1) {
-      for (int i = 0; i < trancheCount; i++) {
-        if (i == trancheCount - 1) {
-          amounts.add(double.parse(remaining.toStringAsFixed(2)));
-        } else {
-          final amt = min(maxTranche, remaining);
-          amounts.add(double.parse(amt.toStringAsFixed(2)));
-          remaining -= amt;
-        }
-      }
-      return amounts;
-    }
-
-    // Natural randomized distribution
-    for (int i = 0; i < trancheCount - 1; i++) {
-      final remainingCount = trancheCount - 1 - i;
-      // To ensure remaining tranches can fulfill the rest without exceeding maxTranche:
-      final minAllowed = max(10.0, remaining - (remainingCount * maxTranche));
-      // To ensure remaining tranches have at least min (e.g. ₹10) each:
-      final maxAllowed = min(maxTranche, remaining - (remainingCount * 10.0));
-
-      double picked;
-      if (maxAllowed <= minAllowed) {
-        picked = minAllowed;
+    for (int i = 0; i < trancheCount; i++) {
+      if (i == trancheCount - 1) {
+        amounts.add(double.parse(remaining.toStringAsFixed(2)));
       } else {
-        final isWhole = (totalAmount % 1 == 0);
-        final spread = maxAllowed - minAllowed;
-
-        if (isWhole && spread >= 10) {
-          final minInt = minAllowed.ceil();
-          final maxInt = maxAllowed.floor();
-          if (maxInt > minInt) {
-            // Pick a random whole rupee
-            picked = (minInt + random.nextInt(maxInt - minInt + 1)).toDouble();
-          } else {
-            picked = minInt.toDouble();
-          }
-        } else {
-          picked = minAllowed + random.nextDouble() * (maxAllowed - minAllowed);
-          picked = (picked * 100).round() / 100.0;
-        }
-      }
-
-      amounts.add(double.parse(picked.toStringAsFixed(2)));
-      remaining -= picked;
-      remaining = double.parse(remaining.toStringAsFixed(2));
-    }
-
-    // Last tranche gets the exact remaining amount
-    amounts.add(double.parse(remaining.toStringAsFixed(2)));
-
-    // Fallback sanity check: if any tranche violated bounds, use balanced split
-    if (amounts.any((a) => a > maxTranche || a <= 0)) {
-      amounts.clear();
-      remaining = totalAmount;
-      final base = (totalAmount / trancheCount);
-      for (int i = 0; i < trancheCount; i++) {
-        if (i == trancheCount - 1) {
-          amounts.add(double.parse(remaining.toStringAsFixed(2)));
-        } else {
-          final amt = double.parse(base.toStringAsFixed(2));
-          amounts.add(amt);
-          remaining -= amt;
-        }
+        final amt = min(maxTranche, remaining);
+        amounts.add(double.parse(amt.toStringAsFixed(2)));
+        remaining -= amt;
+        remaining = double.parse(remaining.toStringAsFixed(2));
       }
     }
 
@@ -98,7 +45,7 @@ class SplitEngine {
     required String merchantName,
     String note = 'SplitPe Checkout',
     double maxTranche = safeTrancheCap,
-    bool randomize = true,
+    bool randomize = false,
   }) {
     final orderId =
         'ORD${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}';

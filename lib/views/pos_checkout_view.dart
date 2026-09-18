@@ -1015,7 +1015,7 @@ class PosCheckoutViewState extends State<PosCheckoutView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'DYNAMIC ZERO-MDR TRANCHES',
+                                'ZERO-MDR BILL TRANCHES',
                                 style: TextStyle(
                                   fontSize: 9,
                                   fontWeight: FontWeight.w900,
@@ -1040,12 +1040,12 @@ class PosCheckoutViewState extends State<PosCheckoutView> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        '🎲',
+                                        '🔄',
                                         style: TextStyle(fontSize: 10),
                                       ),
                                       SizedBox(width: 4),
                                       Text(
-                                        'RE-ROLL',
+                                        'RECALCULATE',
                                         style: TextStyle(
                                           fontSize: 8.5,
                                           fontWeight: FontWeight.w900,
@@ -1078,7 +1078,7 @@ class PosCheckoutViewState extends State<PosCheckoutView> {
                                   ),
                                 ),
                                 child: Text(
-                                  '#${t.index}: ₹${t.amount.toStringAsFixed(0)}',
+                                  '#${t.index}: ₹${t.amount % 1 == 0 ? t.amount.toStringAsFixed(0) : t.amount.toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w800,
