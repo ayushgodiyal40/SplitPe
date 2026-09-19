@@ -4,15 +4,6 @@
   <h3><strong>0% MDR Arbitrage & Algorithmic UPI Bill-Tranching System</strong></h3>
   <p>An experimental fintech application built with Flutter & CRED NeoPOP Design System.</p>
 
-  <p>
-    <a href="https://technoaman.github.io/SplitPe/"><img src="https://img.shields.io/badge/🌐_Live_Demo-Visit_SplitPe_Web-00E676?style=for-the-badge&logoColor=black" alt="Live Demo" /></a>
-    <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/Reddit-850%2B_Upvotes-FF4500?style=for-the-badge&logo=reddit&logoColor=white" alt="Reddit 850+ Upvotes" /></a>
-    <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/Views-169K%2B-FF4500?style=for-the-badge&logo=reddit&logoColor=white" alt="169K+ Views" /></a>
-    <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
-    <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/Design-CRED_NeoPOP-00E676?style=for-the-badge&logo=flutter&logoColor=black" alt="CRED NeoPOP" /></a>
-    <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/NPCI_MDR-0%25_Arbitrage-00FF66?style=for-the-badge" alt="0% MDR" /></a>
-    <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="License" /></a>
-  </p>
 
 
 </div>
