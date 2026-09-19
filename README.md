@@ -67,7 +67,7 @@ $$\text{Net Surcharge Paid} = 0\% \text{ MDR} + 0\% \text{ GST} = \mathbf{₹0.0
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/TechnoAman/SplitPe.git
+git clone https://github.com/ayushgodiyal40/SplitPe.git
 
 # 2. Navigate to project directory
 cd SplitPe
@@ -99,6 +99,4 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ---
 
-<div align="center">
-  <sub>Built with ⚡ by <a href="https://github.com/TechnoAman">Aman Tiwari</a></sub>
-</div>
+
