@@ -14,9 +14,7 @@
     <a href="https://github.com/TechnoAman/SplitPe"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="License" /></a>
   </p>
 
-  <p>
-    🔗 <strong>Live App:</strong> <a href="https://technoaman.github.io/SplitPe/">https://technoaman.github.io/SplitPe/</a> &nbsp;|&nbsp; 🔺 <strong>850+ Reddit Upvotes</strong> &nbsp;|&nbsp; 👁️ <strong>169K+ Views</strong>
-  </p>
+
 </div>
 
 https://github.com/user-attachments/assets/cf6e4d3f-3286-4bcd-9004-080d9a7c6520
